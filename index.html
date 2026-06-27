@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Conto Economico</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Piano di Sviluppo e Revisione Obiettivi</h1>
+            <p class="subtitle">Interfaccia di caricamento e riclassificazione Conto Economico</p>
+        </header>
+
+        <section class="upload-section">
+            <div class="card-upload">
+                <h2>Carica il tuo file Excel</h2>
+                <p>Il file deve contenere le colonne: <strong>Conto</strong>, <strong>Tipo</strong> (Ricavi/Costi) e <strong>Importo Dare</strong> / <strong>Importo Avere</strong>.</p>
+                <div id="statusMessage" class="style-hidden"></div>
+                
+                <div class="file-input-wrapper">
+                    <input type="file" id="excelFile" accept=".xlsx, .xls">
+                    <label for="excelFile" class="btn-primary">Seleziona File Excel</label>
+                    <button id="btnReset" class="btn-secondary style-hidden">&#8635; Carica nuovo file</button>
+                </div>
+            </div>
+        </section>
+
+
+
+        <div id="periodoSelectorContainer" class="style-hidden" style="text-align:center;margin-bottom:20px;">
+            <label for="periodoSelect" style="font-weight:600;margin-right:8px;">Filtra per anno:</label>
+            <select id="periodoSelect" class="btn-secondary" style="padding:8px 16px;cursor:pointer;border:none;border-radius:5px;"></select>
+        </div>
+
+        <section id="tablesSection" class="tables-section style-hidden">
+
+<div id="warningNumeroConto" class="warning-banner style-hidden">
+                <strong>⚠️ Avviso:</strong> Il file non contiene una colonna dedicata al numero di conto. I dati sono stati organizzati per categoria utilizzando i numeri estratti dalle descrizioni.
+            </div>
+
+            <div class="table-container document-style">
+                <div class="doc-header">
+                    <h2>SITUAZIONE CONTABILE A SEZIONI PER COMPETENZA</h2>
+                    <p class="doc-meta">Conto Economico</p>
+                    <div id="docHeaderInfo" class="style-hidden">
+                        <p id="docNomeSoggetto" class="doc-meta" style="font-weight:bold;font-size:1.1rem;margin-top:8px;"></p>
+                        <p id="docCodiceFiscale" class="doc-meta"></p>
+                        <p id="docCodSoggetto" class="doc-meta"></p>
+                        <p id="docPeriodo" class="doc-meta"></p>
+                    </div>
+                </div>
+                
+                <div class="situazione-contabile">
+                    <div class="colonna-costi">
+                        <h3>COSTI</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Conto / Voce di Spesa</th>
+                                    <th class="text-right">Importo (€)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="costiContainer">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="colonna-ricavi">
+                        <h3>RICAVI</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Conto / Voce di Ricavo</th>
+                                    <th class="text-right">Importo (€)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ricaviContainer">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="pareggio-container">
+                    <table class="table-pareggio">
+                        <tbody>
+                            <tr class="totale-riga">
+                                <td><strong>TOTALE COSTI</strong></td>
+                                <td id="totalCostiValue" class="text-right"><strong>€ 0,00</strong></td>
+                                <td><strong>TOTALE RICAVI</strong></td>
+                                <td id="totalRicaviValue" class="text-right"><strong>€ 0,00</strong></td>
+                            </tr>
+                            <tr id="rigaUtilePerdita"></tr>
+                            <tr class="riga-chiusura">
+                                <td><strong>TOTALE A PAREGGIO</strong></td>
+                                <td id="pareggioCostiValue" class="text-right"><strong>€ 0,00</strong></td>
+                                <td><strong>TOTALE A PAREGGIO</strong></td>
+                                <td id="pareggioRicaviValue" class="text-right"><strong>€ 0,00</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
